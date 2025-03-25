@@ -22,7 +22,7 @@ def role_required(roles):
 @jwt.user_identity_loader
 def user_identity_lookup(usuario):
     return{
-        'usuarioID': usuario.id,
+        'usuarioId': usuario.id,
         'role': usuario.role
     }
 

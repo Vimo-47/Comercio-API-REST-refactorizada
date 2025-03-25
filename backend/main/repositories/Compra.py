@@ -3,7 +3,7 @@ from main.models import CompraModel
 
 #Se encarga de interactuar con la Base de Datos
 
-class CompraReposiroty:
+class CompraRepository:
 
     __modelo = CompraModel
 
@@ -17,18 +17,21 @@ class CompraReposiroty:
             raise ValueError(f'Compra con la id {id} no encontrada')
         return object
     
-    def find_all(self):
-        object = db.session.query(self.modelo).all()
+
+    def find_all(self, page=1, per_page=5, max_per_page=10):
+        object = db.session.query(self.modelo).paginate(page=page, per_page=per_page, error_out=False, max_per_page=max_per_page)
         return object
+
     
     def create(self, object):
         db.session.add(object)
         db.session.commit()
         return object
     
-    #Es igual que crear pero usamos otro nombre para evitar confusiones
     def update (self, object):
-        return self.create(object)
+        db.session.merge(object)
+        db.session.commit()
+        return object
     
     def delete(self, id):
         object = self.find_one(id)

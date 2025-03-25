@@ -17,10 +17,3 @@ class CompraSchema(Schema):
     def create_compra(self, data,**kwarg):
         return CompraModel(**data)
     
-    #Retorna todo menos el usuarioID
-    SKIP_VALUES = ['usuarioId']
-    @post_dump
-    def remove_skip_values(self,data,**kwargs):
-        return{
-            key: value for key, value in data.items() if key not in self.SKIP_VALUES
-        }
